@@ -39,3 +39,7 @@ export const modelCreateValidation = [
   body("model", "Введите name model").isLength({ min: 1 }).isString(),
   body("imageModelUrl", "Неверная ссылка на изображение").optional().isString(),
 ];
+export const shortsCreateValidation = [
+  body("url", "Введите url shorts").isLength({ min: 1 }).isString(),
+  body("type", "Неверный тип на изображение").optional().isString(),
+];

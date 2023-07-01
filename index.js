@@ -9,8 +9,8 @@ import {
   loginValidation,
   postCreateValidation,
   photoCreateValidation,
-  categoryCreateValidation,
   modelCreateValidation,
+  shortsCreateValidation,
 } from "./validations.js";
 
 import { handleValidationErrors, checkAuth } from "./utils/index.js";
@@ -18,10 +18,10 @@ import { handleValidationErrors, checkAuth } from "./utils/index.js";
 import {
   UserController,
   PostController,
-  PhotoController,
   CategoryController,
   ModelController,
   GifGenerate,
+  ShortsController,
 } from "./controllers/index.js";
 
 const PORT = 4444;
@@ -85,7 +85,7 @@ app.post("/gen", upload.single("image"), GifGenerate.createGifTest);
 
 app.get("/tags", PostController.getLastTags);
 
-app.get("/photo", PhotoController.getAll);
+app.get("/shorts", ShortsController.getAllShorts);
 app.get("/posts/tags", PostController.getLastTags);
 app.get("/posts/:id", PostController.getOne);
 
@@ -95,6 +95,12 @@ app.post(
   postCreateValidation,
   handleValidationErrors,
   PostController.create
+);
+app.post(
+  "/shorts",
+  shortsCreateValidation,
+  handleValidationErrors,
+  ShortsController.createShorts
 );
 app.post(
   "/category",
@@ -127,6 +133,7 @@ app.get("/top", handleValidationErrors, PostController.getTopViews);
 app.get("/random", handleValidationErrors, PostController.getRandom);
 
 app.get("/category", handleValidationErrors, CategoryController.getAll);
+
 app.get(
   "/category/:id",
   handleValidationErrors,
@@ -152,14 +159,6 @@ app.get(
 app.get("/model", handleValidationErrors, ModelController.getAllModel);
 app.get("/model/:id", handleValidationErrors, ModelController.getFindModel);
 
-app.post(
-  "/photo",
-  checkAuth,
-  photoCreateValidation,
-  handleValidationErrors,
-  PhotoController.createPhoto
-);
-
 app.patch(
   "/users/:id/addpost",
   checkAuth,
@@ -169,6 +168,7 @@ app.patch(
 );
 
 app.delete("/posts/:id", checkAuth, PostController.remove);
+app.delete("/shorts/:id", ShortsController.remove);
 app.delete("/category/:id", checkAuth, CategoryController.remove);
 
 app.patch(
