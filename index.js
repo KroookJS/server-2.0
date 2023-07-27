@@ -111,7 +111,7 @@ app.post(
 );
 app.post(
   "/model",
-  checkAuth,
+  /* checkAuth, */
   modelCreateValidation,
   handleValidationErrors,
   ModelController.createModel
@@ -156,6 +156,23 @@ app.get(
   CategoryController.getFindCategoryByNameToRandom
 );
 
+app.get(
+  "/modfind/:model",
+  handleValidationErrors,
+  ModelController.getFindModelByName
+);
+app.get(
+  "/find/model/:model",
+  handleValidationErrors,
+  ModelController.getFindModelId
+);
+
+app.get(
+  "/find/modelrandom/:model",
+  handleValidationErrors,
+  ModelController.getFindModelByNameToRandom
+);
+
 app.get("/model", handleValidationErrors, ModelController.getAllModel);
 app.get("/model/:id", handleValidationErrors, ModelController.getFindModel);
 
@@ -170,6 +187,7 @@ app.patch(
 app.delete("/posts/:id", checkAuth, PostController.remove);
 app.delete("/shorts/:id", ShortsController.remove);
 app.delete("/category/:id", checkAuth, CategoryController.remove);
+app.delete("/model/:id", ModelController.remove);
 
 app.patch(
   "/posts/:id",

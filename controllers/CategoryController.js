@@ -110,7 +110,6 @@ export const getFindCategoryId = async (req, res) => {
     const categoryFind = await CategoryModel.find({
       category: req.params.category,
     });
-    /* const result = await PostModel.find({ category: categoryFind[0].category }); */
 
     if (!categoryFind) {
       return res.status(404).json({

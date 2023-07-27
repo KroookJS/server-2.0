@@ -35,6 +35,8 @@ const PostSchema = new mongoose.Schema(
     videoUrl: String,
     privUrl: String,
     privVideoUrl: String,
+    userAvatar: String,
+    userName: String,
   },
   {
     timestamps: true,

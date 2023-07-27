@@ -110,12 +110,8 @@ export const getMe = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
   try {
-    /* const users = await UserModel.find().populate("user").exec();
-    res.json(users); */
-
-    let users = await UserModel.find({
-      name: new RegExp(req.query.search, "i"),
-    });
+    /* let page = req.query.page; */
+    let users = await UserModel.find().limit(25);
     res.json(users);
   } catch (err) {
     console.log(err);

@@ -18,10 +18,9 @@ export const createGif = async (req, res) => {
     const timeSecond = (+req.body.time * 60) / 2.9;
     const timeThird = (+req.body.time * 60) / 1.8;
     const timeFore = (+req.body.time * 60) / 1.2;
-    
-    
+
     async function mergeOne() {
-      console.log('video Url = ' + req.body.videoUrl);
+      console.log("video Url = " + req.body.videoUrl);
       console.log("time = " + +req.body.time);
       await ffmpeg(req.body.videoUrl)
         .setStartTime(timeFerst)
@@ -125,7 +124,6 @@ export const createGif = async (req, res) => {
     } */
   } catch (error) {
     console.log(error.message);
-    console.log("Hi");
   }
 };
 
@@ -136,7 +134,7 @@ export const createGifTest = async (req, res) => {
     .input(third)
     .input(fore)
     .on("error", (error) => {
-      res.json({ secsess: false });
+      res.json("not");
       console.log(error.message);
     })
     .on("start", () => {
@@ -144,7 +142,6 @@ export const createGifTest = async (req, res) => {
     })
     .on("end", () => {
       res.json({ url: `/uploads/${dateIdUrl}.mp4` });
-      console.log(`$merged!`);
     })
     .mergeToFile(`./uploads/${dateIdUrl}.mp4`);
 };

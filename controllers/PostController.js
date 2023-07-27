@@ -29,7 +29,7 @@ export const getLastTags = async (req, res) => {
 
 export const getAll = async (req, res) => {
   try {
-    const posts = await PostModel.find().populate("user").exec();
+    const posts = await PostModel.find(); /* .skip(3).limit(1); */
 
     if ("favorite" in req.query) {
       if (req.query.favorite && req.query.favorite.length) {
@@ -57,6 +57,28 @@ export const getFavorite = async (req, res) => {
     if ("favorite" in req.query) {
       if (req.query.favorite && req.query.favorite.length) {
         let arr = req.query.favorite.split(",");
+        posts = posts.filter((item) => arr.includes(item._id.toString()));
+      } else {
+        posts = [];
+      }
+    }
+    res.json(posts);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Не удалось получить статьи",
+    });
+  }
+};
+export const getPostsUserById = async (req, res) => {
+  try {
+    let posts = await PostModel.find({
+      name: new RegExp(req.query.search, "i"),
+    });
+
+    if ("profile" in req.query) {
+      if (req.query.profile && req.query.profile.length) {
+        let arr = req.query.profile.split(",");
         posts = posts.filter((item) => arr.includes(item._id.toString()));
       } else {
         posts = [];
@@ -148,8 +170,6 @@ export const remove = async (req, res) => {
 
 export const create = async (req, res) => {
   try {
-    /* const timeVideo = req.body.time; */
-
     const doc = new PostModel({
       title: req.body.title,
       text: req.body.text,
@@ -159,7 +179,9 @@ export const create = async (req, res) => {
       tags: req.body.tags.split(","),
       category: req.body.category.split(","),
       user: req.body.userId,
-      /* model: req.body.model.split(","), */
+      model: req.body.model.split(","),
+      userAvatar: req.body.userAvatar,
+      userName: req.body.userName,
     });
 
     const post = await doc.save();
@@ -251,7 +273,10 @@ export const update = async (req, res) => {
 
 export const getAllPostUser = async (req, res) => {
   try {
+    let page = req.query.page;
     let users = await PostModel.find().sort({ createdAt: -1 });
+    /* .skip(page * 3)
+      .limit(3); */
 
     if ("favorite" in req.query) {
       if (req.query.favorite && req.query.favorite.length) {
@@ -303,7 +328,7 @@ export const findPostsToSearch = async (req, res) => {
 
 export const getTopViews = async (req, res) => {
   try {
-    let users = await PostModel.find().sort({ viewsCount: 1 });
+    let users = await PostModel.find().sort({ viewsCount: -1 }).limit(5);
 
     users = Array.from(users);
 

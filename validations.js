@@ -13,11 +13,14 @@ export const registerValidation = [
     min: 5,
   }),
   body("fullName", "Укажите имя").isLength({ min: 3 }),
-  body("avatarUrl", "Неверная ссылка на аватарку").optional().isURL(),
+  body("avatarUrl", "Неверная ссылка на аватарку").optional().isString(),
 ];
 
 export const postCreateValidation = [
-  body("title", "Введите заголовок статьи").isLength({ min: 3 }).optional().isString(),
+  body("title", "Введите заголовок статьи")
+    .isLength({ min: 3 })
+    .optional()
+    .isString(),
   body("text", "Введите текст статьи").isLength({ min: 3 }).isString(),
   body("tags", "Неверный формат тэгов").optional().isString(),
   body("category", "Неверный формат category").optional().isString(),
@@ -26,14 +29,20 @@ export const postCreateValidation = [
   body("privUrl", "Неверная ссылка на изображение").optional().isString(),
   body("privVideoUrl", "Неверная ссылка на привью Видео").optional().isString(),
   body("userId", "Неверный id").optional().isString(),
+  body("userAvatar", "Неверная ссылка на userAvatar").optional().isString(),
+  body("userName", "Неверный userName").optional().isString(),
 ];
 export const photoCreateValidation = [
   body("text", "Введите текст статьи").isLength({ min: 3 }).isString(),
   body("imageUrl", "Неверная ссылка на изображение").optional().isString(),
 ];
 export const categoryCreateValidation = [
-  body("category", "Введите название категории").isLength({ min: 1 }).isString(),
-  body("imageCategoryUrl", "Неверная ссылка на изображение").optional().isString(),
+  body("category", "Введите название категории")
+    .isLength({ min: 1 })
+    .isString(),
+  body("imageCategoryUrl", "Неверная ссылка на изображение")
+    .optional()
+    .isString(),
 ];
 export const modelCreateValidation = [
   body("model", "Введите name model").isLength({ min: 1 }).isString(),
